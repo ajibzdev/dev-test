@@ -9,6 +9,7 @@ import AuthInput from "./components/AuthInput";
 import Name from "./assets/icons/NameIcon.svg";
 import Email from "./assets/icons/EmailIcon.svg";
 import { handleEmailError, handleInputError } from "./utils/inputHandler";
+import loaded from "./hooks/useCachedResources";
 
 export default function App() {
   const [name, setName] = React.useState<string>("");
@@ -36,12 +37,17 @@ export default function App() {
     email: "Email is required",
     password: "Password is required",
     confirmPassword: "Must confirm password",
+    number: "Number is required",
   });
 
   const handleEmail = (e: string) => {
     setEmail(e);
     handleEmailError(e, errors, setErrors, setErrorMsgs);
   };
+
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={[GlobalStyles.root]}>
@@ -79,7 +85,7 @@ export default function App() {
 
         <AuthInput
           placeholder={"+234 8012345678"}
-          label="Phone Number"
+          label="Your Phone Number (We'll send a verification code)*"
           value={phone}
           required
           keyboardType={"phone-pad"}
@@ -90,6 +96,39 @@ export default function App() {
             handleInputError(text, "number", errors, setErrors, setErrorMsgs);
           }}
           ref={phoneRef}
+          onSubmitEditing={() => {}}
+        />
+
+        <AuthInput
+          placeholder={"+234 8012345678"}
+          label="An alternamte phone number"
+          value={alternatePhone}
+          keyboardType={"phone-pad"}
+          onChangeText={(text) => {
+            setAlternatePhone(() => text);
+          }}
+          ref={alternatePhoneRef}
+          onSubmitEditing={() => {}}
+        />
+
+        <AuthInput
+          placeholder={"Create a password"}
+          label="Secure your password"
+          value={password}
+          password={true}
+          onChangeText={(text) => {
+            setPassword(text);
+          }}
+          ref={passwordRef}
+          onSubmitEditing={() => {}}
+        />
+        <AuthInput
+          placeholder={"Confirm a password"}
+          label=""
+          value={confirmPassword}
+          password={true}
+          onChangeText={setConfirmPassword}
+          ref={setConfirmPassword}
           onSubmitEditing={() => {}}
         />
       </View>

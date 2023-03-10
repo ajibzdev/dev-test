@@ -16,12 +16,12 @@ export default function useCachedResources() {
         await Font.loadAsync({
           ...FontAwesome.font,
           "space-mono": require("../assets/fonts/SpaceMono-Regular.ttf"),
-          "sans-black": require("../assets/fonts/SourceSansPro-Black.ttf"),
+          "sans-black": require("../assets/fonts/Satoshi-Black.otf"),
           "sans-italic": require("../assets/fonts/SourceSansPro-BlackItalic.ttf"),
           "sans-boldItalic": require("../assets/fonts/SourceSansPro-BoldItalic.ttf"),
           "sans-extraLight": require("../assets/fonts/SourceSansPro-ExtraLight.ttf"),
-          "sans-regular": require("../assets/fonts/SourceSansPro-Regular.ttf"),
-          "sans-semiBold": require("../assets/fonts/SourceSansPro-SemiBold.ttf"),
+          "sans-regular": require("../assets/fonts/Satoshi-Regular.otf"),
+          "sans-semiBold": require("../assets/fonts/Satoshi-Bold.otf"),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
