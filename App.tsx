@@ -6,8 +6,9 @@ import GlobalStyles from "./GlobalStyles";
 import NavTitle from "./components/shared/NavTitle";
 import Fonts from "./constants/Fonts";
 import AuthInput from "./components/AuthInput";
-
 import Name from "./assets/icons/NameIcon.svg";
+import Email from "./assets/icons/EmailIcon.svg";
+import { handleEmailError, handleInputError } from "./utils/inputHandler";
 
 export default function App() {
   const [name, setName] = React.useState<string>("");
@@ -24,12 +25,30 @@ export default function App() {
   const passwordRef = React.useRef<any>();
   const confirmPasswordRef = React.useRef<any>();
 
+  const [errors, setErrors] = React.useState({
+    name: false,
+    gender: false,
+    email: false,
+    number: false,
+  });
+
+  const [errorMsgs, setErrorMsgs] = React.useState({
+    email: "Email is required",
+    password: "Password is required",
+    confirmPassword: "Must confirm password",
+  });
+
+  const handleEmail = (e: string) => {
+    setEmail(e);
+    handleEmailError(e, errors, setErrors, setErrorMsgs);
+  };
+
   return (
     <SafeAreaView style={[GlobalStyles.root]}>
       <StatusBar style="auto" />
       <NavTitle label="" />
 
-      <View style={[GlobalStyles.alignItems]}>
+      <View style={[GlobalStyles.alignCenter, GlobalStyles.flex1]}>
         <Text style={[Fonts.sansH1]}>Createa reider account</Text>
 
         <Text style={[Fonts.sansH4]}>It'll only take a minute</Text>
@@ -37,12 +56,41 @@ export default function App() {
         <View style={{ marginTop: 24 }} />
 
         <AuthInput
-          label="What would you lik us to call you?"
-          onChangeText={setName}
+          label="What would you like us to call you?"
+          onChangeText={(text) => {
+            handleEmail(text);
+          }}
           ref={nameRef}
           value={name}
           Icon={Name}
           required={true}
+        />
+
+        <AuthInput
+          label="Your best Email ?"
+          onChangeText={(text) => {
+            handleEmail(text);
+          }}
+          ref={emailRef}
+          value={email}
+          Icon={Email}
+          required={true}
+        />
+
+        <AuthInput
+          placeholder={"+234 8012345678"}
+          label="Phone Number"
+          value={phone}
+          required
+          keyboardType={"phone-pad"}
+          error={errors.number}
+          errorMsg={errorMsgs.number}
+          onChangeText={(text) => {
+            setPhone(() => text);
+            handleInputError(text, "number", errors, setErrors, setErrorMsgs);
+          }}
+          ref={phoneRef}
+          onSubmitEditing={() => {}}
         />
       </View>
     </SafeAreaView>
